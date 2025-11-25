@@ -10,6 +10,7 @@ function App() {
     otherType: ''
   });
   const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (formData.type === 'Partner/Vendor') {
@@ -203,6 +204,9 @@ function App() {
     e.preventDefault();
     if (validateForm()) {
       try {
+        console.log('Form submission started');
+        console.log('Form data being sent:', formData);
+
         const response = await fetch('/api/submit', {
           method: 'POST',
           headers: {
@@ -211,18 +215,23 @@ function App() {
           body: JSON.stringify(formData)
         });
 
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
+
         const data = await response.json();
+        console.log('Response data:', data);
 
         if (data.success) {
-          alert('Thank you for your support!');
-          // Reset form
-          setFormData({ name: '', email: '', type: 'Startup', otherType: '' });
-          setErrors({});
+          console.log('Form submitted successfully');
+          setSubmitted(true);
         } else {
           throw new Error(data.error || 'Submission failed');
         }
       } catch (error) {
         console.error('Error submitting form:', error);
+        console.error('Error name:', error.name);
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
         alert('There was an error submitting the form. Please try again.');
       }
     }
@@ -290,117 +299,158 @@ function App() {
               <img src="/tantape.svg" alt="" className="collage-tantape" />
             )}
             <form className="support-form" onSubmit={handleSubmit}>
-          <img
-            src={
-              formData.type === 'Investor/LP' ? '/rawcorp.svg' :
-              formData.type === 'Partner/Vendor' ? '/bluelogo.svg' :
-              formData.type === 'Other' ? '/rawquestion.svg' :
-              '/rawlogo.svg'
-            }
-            alt="Raw Logo"
-            className="form-logo"
-          />
-          {formData.type === 'Partner/Vendor' ? (
-            <p className="form-subheadline">Become a true partner, and let's push the ATX ecosystem to new heights.</p>
-          ) : formData.type === 'Other' ? (
-            <p className="form-subheadline">Don't really fit into one of the predefined categories? It's ok. Neither do we, <strong><u>and that's by design</u></strong>.</p>
-          ) : formData.type === 'Investor/LP' ? (
-            <p className="form-subheadline">Building Austin's next generation of globally scaled companies.</p>
-          ) : (
-            <p className="form-subheadline">FUNDING UPFRONT. NO BS. BRUTAL WORK ETHIC. ALL-IN OR NOT AT ALL.</p>
-          )}
-
-          <div className="form-group">
-            <label htmlFor="name">Name*</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              className={errors.name ? 'error' : ''}
-            />
-            {errors.name && <span className="error-message">{errors.name}</span>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="email">Email*</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              className={errors.email ? 'error' : ''}
-            />
-            {errors.email && <span className="error-message">{errors.email}</span>}
-          </div>
-
-          <div className="form-group">
-            <label>What are you?*</label>
-            <div className="radio-group">
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="type"
-                  value="Startup"
-                  checked={formData.type === 'Startup'}
-                  onChange={handleInputChange}
-                />
-                <span>Startup</span>
-              </label>
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="type"
-                  value="Investor/LP"
-                  checked={formData.type === 'Investor/LP'}
-                  onChange={handleInputChange}
-                />
-                <span>Investor/LP</span>
-              </label>
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="type"
-                  value="Partner/Vendor"
-                  checked={formData.type === 'Partner/Vendor'}
-                  onChange={handleInputChange}
-                />
-                <span>Partner/Vendor/Gov</span>
-              </label>
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="type"
-                  value="Other"
-                  checked={formData.type === 'Other'}
-                  onChange={handleInputChange}
-                />
-                <span>Other</span>
-              </label>
-            </div>
-            {errors.type && <span className="error-message">{errors.type}</span>}
-          </div>
-
-          {formData.type === 'Other' && (
-            <div className="form-group">
-              <input
-                type="text"
-                id="otherType"
-                name="otherType"
-                placeholder="Please specify"
-                value={formData.otherType}
-                onChange={handleInputChange}
-                className={errors.otherType ? 'error' : ''}
+          {!submitted ? (
+            <>
+              <img
+                src={
+                  formData.type === 'Investor/LP' ? '/rawcorp.svg' :
+                  formData.type === 'Partner/Vendor' ? '/bluelogo.svg' :
+                  formData.type === 'Other' ? '/rawquestion.svg' :
+                  '/rawlogo.svg'
+                }
+                alt="Raw Logo"
+                className="form-logo"
               />
-              {errors.otherType && <span className="error-message">{errors.otherType}</span>}
+              {formData.type === 'Partner/Vendor' ? (
+                <p className="form-subheadline">Become a true partner, and let's push the ATX ecosystem to new heights.</p>
+              ) : formData.type === 'Other' ? (
+                <p className="form-subheadline">Don't really fit into one of the predefined categories? It's ok. Neither do we, <strong><u>and that's by design</u></strong>.</p>
+              ) : formData.type === 'Investor/LP' ? (
+                <p className="form-subheadline">Building Austin's next generation of globally scaled companies.</p>
+              ) : (
+                <p className="form-subheadline">FUNDING UPFRONT. NO BS. BRUTAL WORK ETHIC. ALL-IN OR NOT AT ALL.</p>
+              )}
+            </>
+          ) : (
+            <div className="success-state">
+              <img
+                src={
+                  formData.type === 'Investor/LP' ? '/rawcorp.svg' :
+                  formData.type === 'Partner/Vendor' ? '/bluelogo.svg' :
+                  formData.type === 'Other' ? '/rawquestion.svg' :
+                  '/rawlogo.svg'
+                }
+                alt="Raw Logo"
+                className="form-logo"
+              />
+              {formData.type === 'Startup' ? (
+                <h2 className="success-message">YOU'RE IN. LET'S BUILD.</h2>
+              ) : formData.type === 'Investor/LP' ? (
+                <h2 className="success-message">Welcome aboard. We'll be in touch soon.</h2>
+              ) : formData.type === 'Partner/Vendor' ? (
+                <h2 className="success-message">Partnership initiated. Let's build Austin together.</h2>
+              ) : (
+                <h2 className="success-message">We love wildcards. Talk soon!</h2>
+              )}
+              <button
+                type="button"
+                className="submit-button"
+                onClick={() => {
+                  setSubmitted(false);
+                  setFormData({ name: '', email: '', type: 'Startup', otherType: '' });
+                  setErrors({});
+                }}
+              >
+                SUBMIT ANOTHER
+              </button>
             </div>
           )}
 
-          <button type="submit" className="submit-button">
-            {formData.type === 'Investor/LP' ? "COUNT ME IN - LET'S CHAT" : formData.type === 'Startup' ? 'I WANT THIS' : 'I SUPPORT THIS'}
-          </button>
+          {!submitted && (
+            <>
+              <div className="form-group">
+                <label htmlFor="name">Name*</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className={errors.name ? 'error' : ''}
+                />
+                {errors.name && <span className="error-message">{errors.name}</span>}
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="email">Email*</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className={errors.email ? 'error' : ''}
+                />
+                {errors.email && <span className="error-message">{errors.email}</span>}
+              </div>
+
+              <div className="form-group">
+                <label>What are you?*</label>
+                <div className="radio-group">
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="type"
+                      value="Startup"
+                      checked={formData.type === 'Startup'}
+                      onChange={handleInputChange}
+                    />
+                    <span>Startup</span>
+                  </label>
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="type"
+                      value="Investor/LP"
+                      checked={formData.type === 'Investor/LP'}
+                      onChange={handleInputChange}
+                    />
+                    <span>Investor/LP</span>
+                  </label>
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="type"
+                      value="Partner/Vendor"
+                      checked={formData.type === 'Partner/Vendor'}
+                      onChange={handleInputChange}
+                    />
+                    <span>Partner/Vendor/Gov</span>
+                  </label>
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="type"
+                      value="Other"
+                      checked={formData.type === 'Other'}
+                      onChange={handleInputChange}
+                    />
+                    <span>Other</span>
+                  </label>
+                </div>
+                {errors.type && <span className="error-message">{errors.type}</span>}
+              </div>
+
+              {formData.type === 'Other' && (
+                <div className="form-group">
+                  <input
+                    type="text"
+                    id="otherType"
+                    name="otherType"
+                    placeholder="Please specify"
+                    value={formData.otherType}
+                    onChange={handleInputChange}
+                    className={errors.otherType ? 'error' : ''}
+                  />
+                  {errors.otherType && <span className="error-message">{errors.otherType}</span>}
+                </div>
+              )}
+
+              <button type="submit" className="submit-button">
+                {formData.type === 'Investor/LP' ? "COUNT ME IN - LET'S CHAT" : formData.type === 'Startup' ? 'I WANT THIS' : 'I SUPPORT THIS'}
+              </button>
+            </>
+          )}
             </form>
           </div>
         </div>
