@@ -959,6 +959,13 @@
   transform: scale(0.98);
 }
 
+.submit-button.disabled,
+.submit-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* Success State Styles */
 .success-state {
   text-align: center;

@@ -246,6 +246,16 @@ function App() {
     }
   };
 
+  // Check if form is valid
+  const isFormValid = () => {
+    const hasName = formData.name.trim().length > 0;
+    const hasEmail = formData.email.trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+    const hasType = formData.type.length > 0;
+    const hasOtherType = formData.type === 'Other' ? formData.otherType.trim().length > 0 : true;
+
+    return hasName && hasEmail && hasType && hasOtherType;
+  };
+
   return (
     <div className={`app ${formData.type === 'Investor/LP' ? 'investor-mode' : ''} ${formData.type === 'Partner/Vendor' ? 'partner-mode' : ''} ${formData.type === 'Other' ? 'other-mode' : ''}`}>
       {formData.type === 'Investor/LP' ? (
@@ -446,7 +456,11 @@ function App() {
                 </div>
               )}
 
-              <button type="submit" className="submit-button">
+              <button
+                type="submit"
+                className={`submit-button ${!isFormValid() ? 'disabled' : ''}`}
+                disabled={!isFormValid()}
+              >
                 {formData.type === 'Investor/LP' ? "COUNT ME IN - LET'S CHAT" : formData.type === 'Startup' ? 'I WANT THIS' : 'I SUPPORT THIS'}
               </button>
             </>
