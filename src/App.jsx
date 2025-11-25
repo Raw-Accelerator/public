@@ -6,7 +6,7 @@ function App() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    type: '',
+    type: 'Startup',
     otherType: ''
   });
   const [errors, setErrors] = useState({});
