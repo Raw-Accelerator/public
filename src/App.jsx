@@ -12,7 +12,7 @@ function App() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (formData.type === 'Partner/Vendor' || formData.type === 'Other') {
+    if (formData.type === 'Partner/Vendor') {
       const canvas = document.getElementById('network-canvas');
       if (!canvas) return;
 
@@ -85,6 +85,95 @@ function App() {
     }
   }, [formData.type]);
 
+  useEffect(() => {
+    if (formData.type === 'Other') {
+      const canvas = document.getElementById('dvd-canvas');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const img = new Image();
+      img.src = '/question.svg';
+
+      const colors = ['#10B981', '#EF4444', '#3B82F6', '#F59E0B', '#8B5CF6', '#EC4899'];
+
+      const logos = [
+        {
+          x: Math.random() * (canvas.width - 150),
+          y: Math.random() * (canvas.height - 150),
+          vx: 2,
+          vy: 2,
+          width: 150,
+          height: 150,
+          colorIndex: 0
+        },
+        {
+          x: Math.random() * (canvas.width - 150),
+          y: Math.random() * (canvas.height - 150),
+          vx: -2,
+          vy: 2,
+          width: 150,
+          height: 150,
+          colorIndex: 2
+        },
+        {
+          x: Math.random() * (canvas.width - 150),
+          y: Math.random() * (canvas.height - 150),
+          vx: 2,
+          vy: -2,
+          width: 150,
+          height: 150,
+          colorIndex: 4
+        }
+      ];
+
+      function animate() {
+        ctx.fillStyle = '#413c4a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        logos.forEach(logo => {
+          // Move logo
+          logo.x += logo.vx;
+          logo.y += logo.vy;
+
+          // Bounce off edges and change color
+          if (logo.x <= 0 || logo.x + logo.width >= canvas.width) {
+            logo.vx *= -1;
+            logo.colorIndex = (logo.colorIndex + 1) % colors.length;
+          }
+          if (logo.y <= 0 || logo.y + logo.height >= canvas.height) {
+            logo.vy *= -1;
+            logo.colorIndex = (logo.colorIndex + 1) % colors.length;
+          }
+
+          // Draw logo with color filter
+          ctx.save();
+          ctx.filter = `hue-rotate(${logo.colorIndex * 60}deg) saturate(150%)`;
+          ctx.drawImage(img, logo.x, logo.y, logo.width, logo.height);
+          ctx.restore();
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      img.onload = () => {
+        animate();
+      };
+
+      const handleResize = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+  }, [formData.type]);
+
   const validateForm = () => {
     const newErrors = {};
 
@@ -110,14 +199,32 @@ function App() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('Form submitted:', formData);
-      alert('Thank you for your support!');
-      // Reset form
-      setFormData({ name: '', email: '', type: '', otherType: '' });
-      setErrors({});
+      try {
+        const response = await fetch('http://localhost:3001/api/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          alert('Thank you for your support!');
+          // Reset form
+          setFormData({ name: '', email: '', type: 'Startup', otherType: '' });
+          setErrors({});
+        } else {
+          throw new Error(data.error || 'Submission failed');
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('There was an error submitting the form. Please try again.');
+      }
     }
   };
 
@@ -131,7 +238,7 @@ function App() {
   };
 
   return (
-    <div className={`app ${formData.type === 'Investor/LP' ? 'investor-mode' : ''} ${(formData.type === 'Partner/Vendor' || formData.type === 'Other') ? 'partner-mode' : ''}`}>
+    <div className={`app ${formData.type === 'Investor/LP' ? 'investor-mode' : ''} ${formData.type === 'Partner/Vendor' ? 'partner-mode' : ''} ${formData.type === 'Other' ? 'other-mode' : ''}`}>
       {formData.type === 'Investor/LP' ? (
         <video
           src="/austin.mp4"
@@ -141,9 +248,13 @@ function App() {
           muted
           playsInline
         />
-      ) : (formData.type === 'Partner/Vendor' || formData.type === 'Other') ? (
+      ) : formData.type === 'Partner/Vendor' ? (
         <div className="network-background">
           <canvas id="network-canvas" className="app-background"></canvas>
+        </div>
+      ) : formData.type === 'Other' ? (
+        <div className="dvd-background">
+          <canvas id="dvd-canvas" className="app-background"></canvas>
         </div>
       ) : (
         <img src="/bg.svg" alt="Background" className="app-background" />
@@ -163,15 +274,14 @@ function App() {
           <img src="/drips.svg" alt="" className="collage-drips" />
           <img src="/barcode.svg" alt="" className="collage-barcode" />
           <img src="/ducttape.svg" alt="" className="collage-ducttape" />
+          <img src="/rocket.svg" alt="" className="collage-rocket" />
         </div>
       )}
 
       <div className="form-overlay">
         {formData.type === 'Investor/LP' && (
           <div className="hero-text">
-            <h1>Uniting investors, corporates, and founders in a 24-month experiment to build the next wave of Austin-born, globally scaled companies.</h1>
-            <p>We turn early teams into investable companies through structured validation, measurable traction, and predictable progress.</p>
-            <div className="hero-cta">JOIN THE MOVEMENT.</div>
+            <h1>Uniting investors, corporates, and founders in a 24-month hands-on, no BS, hardcore company-building experiment to launch the next wave of Austin-born, globally scaled companies.</h1>
           </div>
         )}
         <div className="form-wrapper">
@@ -183,18 +293,21 @@ function App() {
           <img
             src={
               formData.type === 'Investor/LP' ? '/rawcorp.svg' :
-              (formData.type === 'Partner/Vendor' || formData.type === 'Other') ? '/bluelogo.svg' :
+              formData.type === 'Partner/Vendor' ? '/bluelogo.svg' :
+              formData.type === 'Other' ? '/rawquestion.svg' :
               '/rawlogo.svg'
             }
             alt="Raw Logo"
             className="form-logo"
           />
-          {(formData.type === 'Partner/Vendor' || formData.type === 'Other') ? (
-            <p className="form-subheadline">Join the ecosystem accelerating Austin's most ambitious founders.</p>
+          {formData.type === 'Partner/Vendor' ? (
+            <p className="form-subheadline">Become a true partner, and let's push the ATX ecosystem to new heights.</p>
+          ) : formData.type === 'Other' ? (
+            <p className="form-subheadline">Don't really fit into one of the predefined categories? It's ok. Neither do we, <strong><u>and that's by design</u></strong>.</p>
           ) : formData.type === 'Investor/LP' ? (
             <p className="form-subheadline">Building Austin's next generation of globally scaled companies.</p>
           ) : (
-            <p className="form-subheadline">We killed the old playbook — this is where founders get forged, sharpened, and unleashed.</p>
+            <p className="form-subheadline">FUNDING UPFRONT. NO BS. BRUTAL WORK ETHIC. ALL-IN OR NOT AT ALL.</p>
           )}
 
           <div className="form-group">
@@ -254,7 +367,7 @@ function App() {
                   checked={formData.type === 'Partner/Vendor'}
                   onChange={handleInputChange}
                 />
-                <span>Partner/Vendor</span>
+                <span>Partner/Vendor/Gov</span>
               </label>
               <label className="radio-label">
                 <input
@@ -285,7 +398,9 @@ function App() {
             </div>
           )}
 
-          <button type="submit" className="submit-button">I SUPPORT THIS</button>
+          <button type="submit" className="submit-button">
+            {formData.type === 'Investor/LP' ? "COUNT ME IN - LET'S CHAT" : formData.type === 'Startup' ? 'I WANT THIS' : 'I SUPPORT THIS'}
+          </button>
             </form>
           </div>
         </div>

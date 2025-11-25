@@ -13,6 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "@vitejs/plugin-react": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "googleapis": "^166.0.0",
     "react": "^19.2.0",
     "react-compare-slider": "^3.1.0",
     "react-dom": "^19.2.0",
