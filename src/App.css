@@ -9,6 +9,17 @@
   }
 }
 
+@keyframes fadeInUpCentered {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
 .app {
   width: 100vw;
   height: 100vh;
@@ -26,6 +37,7 @@
   top: 0;
   left: 0;
   animation: fadeInUp 0.6s ease-out 0s both;
+  transition: opacity 0.6s ease-in-out;
 }
 
 .collage-elements {
@@ -36,6 +48,195 @@
   height: 100%;
   pointer-events: none;
   z-index: 10;
+  opacity: 1;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.collage-elements.fade-out {
+  opacity: 0;
+}
+
+/* Partner/Vendor mode styling overrides */
+.partner-mode .radio-label {
+  transition: all 0.4s ease-in-out !important;
+}
+
+.partner-mode .radio-label:has(input[type="radio"]:checked) {
+  border-color: #0EA5E9 !important;
+  background: #0EA5E9 !important;
+}
+
+.partner-mode .submit-button {
+  background-color: #0EA5E9 !important;
+  transition: all 0.4s ease-in-out !important;
+}
+
+.partner-mode .submit-button:hover {
+  background-color: #0284C7 !important;
+}
+
+.network-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Investor mode styling overrides */
+.investor-mode .radio-label {
+  border: none !important;
+  border-radius: 50px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.4s ease-in-out !important;
+}
+
+.investor-mode .radio-label:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.investor-mode .radio-label:has(input[type="radio"]:checked) {
+  background: #3F3C4A !important;
+  box-shadow: 0 4px 16px rgba(63, 60, 74, 0.3) !important;
+}
+
+.investor-mode .form-group input[type="text"],
+.investor-mode .form-group input[type="email"] {
+  border: none !important;
+  border-radius: 50px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  padding: 0.85rem 1.25rem !important;
+  transition: all 0.4s ease-in-out !important;
+}
+
+.investor-mode .form-group input[type="text"]:focus,
+.investor-mode .form-group input[type="email"]:focus {
+  box-shadow: 0 4px 16px rgba(63, 60, 74, 0.2) !important;
+}
+
+.investor-mode .submit-button {
+  background-color: #3F3C4A !important;
+  border-radius: 50px !important;
+  box-shadow: 0 4px 16px rgba(63, 60, 74, 0.3) !important;
+  transition: all 0.4s ease-in-out !important;
+}
+
+.investor-mode .submit-button:hover {
+  background-color: #2f2c3a !important;
+  box-shadow: 0 6px 20px rgba(63, 60, 74, 0.4) !important;
+}
+
+/* Investor mode hero layout */
+@media (min-width: 768px) {
+  .investor-mode::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.12);
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .investor-mode .form-overlay {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 5% !important;
+    gap: 5% !important;
+  }
+
+  .investor-mode .form-wrapper {
+    max-width: 500px !important;
+  }
+
+  .hero-text {
+    flex: 1;
+    max-width: 600px;
+    color: white;
+    pointer-events: auto;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
+
+  .hero-text h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 1.5rem 0;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0 0 1.5rem 0;
+    font-weight: 400;
+  }
+
+  .hero-cta {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px;
+    color: white;
+  }
+
+  .investor-mode .support-form {
+    background: rgb(255, 255, 255) !important;
+    backdrop-filter: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-text {
+    display: none;
+  }
+
+  .investor-mode .support-form {
+    background: transparent !important;
+    backdrop-filter: none !important;
+  }
+
+  .investor-mode .form-logo {
+    filter: brightness(0) invert(1);
+  }
+
+  .investor-mode .form-subheadline {
+    color: white !important;
+  }
+
+  .investor-mode .form-group label {
+    color: white !important;
+  }
+
+  .investor-mode .form-group input[type="text"],
+  .investor-mode .form-group input[type="email"] {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    color: white !important;
+  }
+
+  .investor-mode .form-group input[type="text"]::placeholder,
+  .investor-mode .form-group input[type="email"]::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+
+  .investor-mode .radio-label {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+  }
+
+  .investor-mode .radio-label span {
+    color: white !important;
+  }
+
+  .investor-mode .radio-label:has(input[type="radio"]:checked) {
+    background: rgba(63, 60, 74, 0.9) !important;
+    border-color: #3F3C4A !important;
+  }
 }
 
 /* Desktop & Tablet (≥768px) - LOCKED */
@@ -158,6 +359,11 @@
 
 /* Mobile (<768px) - Customize below */
 @media (max-width: 767px) {
+  .app-background {
+    transform: skewY(-4deg) !important;
+    transform-origin: top left !important;
+  }
+
   .form-overlay {
     align-items: flex-end !important;
     justify-content: stretch !important;
@@ -188,6 +394,7 @@
 
   .collage-tantape {
     top: -48px !important;
+    animation: fadeInUpCentered 0.8s ease-out 0.5s both !important;
   }
 
   .collage-elements {
@@ -254,6 +461,7 @@
   position: relative;
   max-width: 450px;
   width: 90%;
+  transition: all 0.6s ease-in-out;
 }
 
 .form-container {
@@ -271,7 +479,7 @@
   height: auto;
   z-index: 200;
   pointer-events: none;
-  animation: fadeInUp 0.8s ease-out 0.5s both;
+  animation: fadeInUpCentered 0.8s ease-out 0.5s both;
 }
 
 .form-overlay {
@@ -285,6 +493,7 @@
   justify-content: center;
   pointer-events: none;
   z-index: 100;
+  transition: all 0.6s ease-in-out;
 }
 
 .support-form {
@@ -296,11 +505,13 @@
   width: 100%;
   pointer-events: auto;
   animation: fadeInUp 0.8s ease-out 0.3s both;
+  transition: all 0.6s ease-in-out;
 }
 
 .form-logo {
   display: block;
   margin: 0 auto 1rem auto;
+  transition: opacity 0.4s ease-in-out;
 }
 
 .form-subheadline {
@@ -311,6 +522,7 @@
   margin: 0 0 2rem 0;
   font-weight: 500;
   font-family: 'Bebas Neue', sans-serif;
+  transition: opacity 0.4s ease-in-out;
 }
 
 .form-group {
@@ -332,7 +544,7 @@
   border: 2px solid #ddd;
   border-radius: 6px;
   font-size: 1rem;
-  transition: border-color 0.3s;
+  transition: all 0.4s ease-in-out;
 }
 
 .form-group input[type="text"]:focus,
@@ -368,7 +580,7 @@
   border: 2px solid #ddd;
   border-radius: 20px;
   background: white;
-  transition: all 0.3s;
+  transition: all 0.4s ease-in-out;
 }
 
 .radio-label:hover {
@@ -406,7 +618,7 @@
   font-weight: 700;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.4s ease-in-out;
   margin-top: 1rem;
   font-family: 'Bebas Neue', sans-serif;
 }
