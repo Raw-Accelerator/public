@@ -203,7 +203,7 @@ function App() {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await fetch('http://localhost:3001/api/submit', {
+        const response = await fetch('/api/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
