@@ -1,0 +1,391 @@
+.app {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.app-background {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.collage-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Desktop & Tablet (≥768px) - LOCKED */
+@media (min-width: 768px) {
+  .collage-smiley {
+    position: absolute;
+    left: 16%;
+    top: 29%;
+    width: 13.5%;
+    height: auto;
+    z-index: 20;
+  }
+
+  .collage-dice {
+    position: absolute;
+    left: 75%;
+    top: 55%;
+    width: 10.5%;
+    height: auto;
+    z-index: 60;
+  }
+
+  .collage-caution {
+    position: absolute;
+    left: 2%;
+    top: 65%;
+    width: 30%;
+    height: auto;
+  }
+
+  .collage-circles {
+    position: absolute;
+    left: 70%;
+    top: 10%;
+    width: 50%;
+    height: auto;
+    z-index: 60;
+  }
+
+  .collage-path {
+    position: absolute;
+    left: 45%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    height: auto;
+  }
+
+  .collage-crack {
+    position: absolute;
+    left: -10%;
+    top: -10%;
+    width: 80%;
+    height: auto;
+  }
+
+  .collage-chevron {
+    position: absolute;
+    left: 19%;
+    top: 62%;
+    width: 45%;
+    height: auto;
+  }
+
+  .collage-checkers {
+    position: absolute;
+    left: 6%;
+    top: 28%;
+    width: 45%;
+    height: auto;
+  }
+
+  .collage-tree {
+    position: absolute;
+    left: 51%;
+    top: 18%;
+    width: 33%;
+    height: auto;
+    z-index: 60;
+  }
+
+  .collage-drips {
+    position: absolute;
+    left: 50%;
+    top: -17%;
+    width: 90%;
+    height: auto;
+    z-index: 50;
+  }
+
+  .collage-barcode {
+    position: absolute;
+    right: -32%;
+    bottom: -20%;
+    width: 80%;
+    height: auto;
+  }
+
+  .collage-ducttape {
+    position: absolute;
+    left: 7%;
+    top: 15%;
+    width: 6.75%;
+    height: auto;
+  }
+}
+
+/* Mobile (<768px) - Customize below */
+@media (max-width: 767px) {
+  .form-overlay {
+    align-items: flex-end !important;
+    justify-content: stretch !important;
+    padding: 0 !important;
+  }
+
+  .form-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .form-container {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .support-form {
+    border-radius: 32px 32px 0 0 !important;
+    padding: 2rem 1.5rem !important;
+    margin: 0 !important;
+    width: 100vw !important;
+    box-sizing: border-box !important;
+    background: rgb(255, 255, 255) !important;
+    backdrop-filter: none !important;
+  }
+
+  .collage-tantape {
+    top: -48px !important;
+  }
+
+  .collage-elements {
+    z-index: auto !important;
+  }
+
+  .collage-smiley {
+    position: fixed !important;
+    left: auto !important;
+    right: calc(-40px + 1vw) !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 100px !important;
+    height: auto !important;
+    max-height: 100px !important;
+    z-index: 10000 !important;
+  }
+
+  .collage-dice {
+    max-width: 100px !important;
+    max-height: 100px !important;
+    padding-left: 32px !important;
+    padding-top: 32px !important;
+    z-index: 5 !important;
+  }
+
+  .collage-caution {
+    display: none !important;
+  }
+
+  .collage-drips {
+    position: absolute !important;
+    left: 70% !important;
+    right: auto !important;
+    top: -12% !important;
+    width: 180% !important;
+    height: auto !important;
+    max-width: none !important;
+    transform: translateX(-50%) !important;
+    z-index: 5 !important;
+  }
+
+  .collage-circles,
+  .collage-path,
+  .collage-crack,
+  .collage-chevron,
+  .collage-checkers,
+  .collage-tree,
+  .collage-barcode,
+  .collage-ducttape {
+    z-index: 5 !important;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="email"] {
+    font-size: 16px !important;
+  }
+}
+
+.form-wrapper {
+  position: relative;
+  max-width: 450px;
+  width: 90%;
+}
+
+.form-container {
+  position: relative;
+  width: 100%;
+  padding-top: 52px;
+}
+
+.collage-tantape {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 231px;
+  height: auto;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.form-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.support-form {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  pointer-events: auto;
+}
+
+.form-logo {
+  display: block;
+  margin: 0 auto 1rem auto;
+}
+
+.form-subheadline {
+  text-align: center;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin: 0 0 2rem 0;
+  font-weight: 500;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus {
+  outline: none;
+  border-color: #333;
+}
+
+.form-group input.error {
+  border-color: #e74c3c;
+}
+
+.error-message {
+  display: block;
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.radio-label {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: normal;
+  padding: 0.5rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  background: white;
+  transition: all 0.3s;
+}
+
+.radio-label:hover {
+  border-color: #333;
+  background: #f5f5f5;
+}
+
+.radio-label:has(input[type="radio"]:checked) {
+  border-color: #ff0000;
+  background: #ff0000;
+}
+
+.radio-label:has(input[type="radio"]:checked) span {
+  color: white;
+  font-weight: 600;
+}
+
+.radio-label input[type="radio"] {
+  display: none;
+}
+
+.radio-label span {
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 1rem;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.submit-button:hover {
+  background-color: #cc0000;
+}
+
+.submit-button:active {
+  transform: scale(0.98);
+}
+
