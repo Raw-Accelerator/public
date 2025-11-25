@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './GridOverlay.css';
 
 function GridOverlay() {
+  const devGrid = import.meta.env.VITE_DEV_GRID === 'true';
   const [showGrid, setShowGrid] = useState(true);
   const [breakpoint, setBreakpoint] = useState('');
 
@@ -18,7 +19,7 @@ function GridOverlay() {
     return () => window.removeEventListener('resize', updateBreakpoint);
   }, []);
 
-  if (!showGrid) return null;
+  if (!devGrid || !showGrid) return null;
 
   return (
     <div className="grid-overlay">
