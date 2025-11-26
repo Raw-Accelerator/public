@@ -794,7 +794,7 @@
 
   .collage-rocket {
     position: absolute !important;
-    width: 24% !important;
+    width: 16% !important;
     height: auto !important;
     z-index: 100 !important;
     animation: rocketFlightMobile 15s linear infinite !important;
@@ -802,7 +802,7 @@
 
   .collage-rocket-2 {
     position: absolute !important;
-    width: 33.75% !important;
+    width: 22.5% !important;
     height: auto !important;
     z-index: 100 !important;
     animation: rocketFlight2Mobile 10s linear infinite !important;
@@ -811,7 +811,7 @@
 
   .collage-rocket-3 {
     position: absolute !important;
-    width: 27% !important;
+    width: 18% !important;
     height: auto !important;
     z-index: 100 !important;
     animation: rocketFlight3Mobile 12s linear infinite !important;
