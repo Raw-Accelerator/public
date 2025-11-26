@@ -98,37 +98,34 @@ function App() {
       const img = new Image();
       img.src = '/question.svg';
 
-      const colors = ['#10B981', '#EF4444', '#3B82F6', '#F59E0B', '#8B5CF6', '#EC4899'];
+      const colors = ['#10B981', '#EF4444', '#3B82F6', '#F59E0B', '#8B5CF6', '#EC4899', '#F97316', '#06B6D4'];
 
-      const logos = [
-        {
-          x: Math.random() * (canvas.width - 150),
-          y: Math.random() * (canvas.height - 150),
-          vx: 2,
-          vy: 2,
-          width: 150,
-          height: 150,
-          colorIndex: 0
-        },
-        {
-          x: Math.random() * (canvas.width - 150),
-          y: Math.random() * (canvas.height - 150),
-          vx: -2,
-          vy: 2,
-          width: 150,
-          height: 150,
-          colorIndex: 2
-        },
-        {
-          x: Math.random() * (canvas.width - 150),
-          y: Math.random() * (canvas.height - 150),
-          vx: 2,
-          vy: -2,
-          width: 150,
-          height: 150,
-          colorIndex: 4
-        }
+      // Create 12 checkmarks with varying sizes and speeds
+      const sizes = [60, 80, 100, 120, 140, 70, 90, 110, 130, 75, 95, 115];
+      const speeds = [
+        { vx: 4, vy: 3.5 },
+        { vx: -3.5, vy: 4 },
+        { vx: 3, vy: -4.5 },
+        { vx: -4.5, vy: -3 },
+        { vx: 5, vy: 2.5 },
+        { vx: -2.5, vy: 5 },
+        { vx: 3.5, vy: -3.5 },
+        { vx: -4, vy: 4.5 },
+        { vx: 4.5, vy: 3 },
+        { vx: -3, vy: -5 },
+        { vx: 2.5, vy: 4.5 },
+        { vx: -5, vy: -2.5 }
       ];
+
+      const logos = sizes.map((size, index) => ({
+        x: Math.random() * (canvas.width - size),
+        y: Math.random() * (canvas.height - size),
+        vx: speeds[index].vx,
+        vy: speeds[index].vy,
+        width: size,
+        height: size,
+        colorIndex: index % colors.length
+      }));
 
       function animate() {
         ctx.fillStyle = '#413c4a';
@@ -151,7 +148,7 @@ function App() {
 
           // Draw logo with color filter
           ctx.save();
-          ctx.filter = `hue-rotate(${logo.colorIndex * 60}deg) saturate(150%)`;
+          ctx.filter = `hue-rotate(${logo.colorIndex * 45}deg) saturate(150%) brightness(120%)`;
           ctx.drawImage(img, logo.x, logo.y, logo.width, logo.height);
           ctx.restore();
         });
@@ -294,6 +291,8 @@ function App() {
           <img src="/barcode.svg" alt="" className="collage-barcode" />
           <img src="/ducttape.svg" alt="" className="collage-ducttape" />
           <img src="/rocket.svg" alt="" className="collage-rocket" />
+          <img src="/rocket.svg" alt="" className="collage-rocket-2" />
+          <img src="/rocket.svg" alt="" className="collage-rocket-3" />
         </div>
       )}
 
@@ -463,6 +462,10 @@ function App() {
               >
                 {formData.type === 'Investor/LP' ? "COUNT ME IN - LET'S CHAT" : formData.type === 'Startup' ? 'I WANT THIS' : 'I SUPPORT THIS'}
               </button>
+
+              <a href="http://www.loganbell.design" target="_blank" rel="noopener noreferrer" className="signature signature-mobile">
+                Made by loganbell.design
+              </a>
             </>
           )}
             </form>
@@ -471,6 +474,10 @@ function App() {
       </div>
 
       <GridOverlay />
+
+      <a href="http://www.loganbell.design" target="_blank" rel="noopener noreferrer" className="signature signature-desktop">
+        Made by loganbell.design
+      </a>
     </div>
   );
 }
