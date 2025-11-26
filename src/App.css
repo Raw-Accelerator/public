@@ -673,7 +673,7 @@
 
   .collage-rocket {
     position: absolute;
-    width: 16%;
+    width: 133px;
     height: auto;
     z-index: 100;
     animation: rocketFlight 15s linear infinite;
@@ -681,7 +681,7 @@
 
   .collage-rocket-2 {
     position: absolute;
-    width: 22.5%;
+    width: 187px;
     height: auto;
     z-index: 100;
     animation: rocketFlight2 10s linear infinite;
@@ -690,7 +690,7 @@
 
   .collage-rocket-3 {
     position: absolute;
-    width: 18%;
+    width: 150px;
     height: auto;
     z-index: 100;
     animation: rocketFlight3 12s linear infinite;
